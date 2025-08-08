@@ -9,7 +9,8 @@ const pagesCollection = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    slug: z.string(),
+    // The slug can be supplied in frontmatter but is optional since Astro will infer it from the filename.
+    slug: z.string().optional(),
     // FAQs and other metadata can be optional
     faq1: z.string().optional(),
     faq2: z.string().optional(),

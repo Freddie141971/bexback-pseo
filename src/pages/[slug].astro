@@ -2,6 +2,14 @@
 import { getCollection, getEntryBySlug } from 'astro:content';
 import BaseLayout from '../layouts/Base.astro';
 
+// Export a getStaticPaths function to tell Astro which routes to prerender.
+export async function getStaticPaths() {
+  const allPages = await getCollection('pages');
+  return allPages.map((page) => ({
+    params: { slug: page.slug },
+  }));
+}
+
 // Obtain the slug parameter from the route. This file generates a page
 // for each entry in the `pages` collection defined in src/content/config.ts.
 const { slug } = Astro.params;
@@ -11,7 +19,10 @@ if (!entry) {
   throw new Error(`Content entry not found for slug: ${slug}`);
 }
 
-const { Content, data } = entry;
+// Compile the Markdown entry to obtain the hydrated component. `entry.render()`
+// returns an object with the `Content` component and any extracted headings.
+const { Content, headings } = await entry.render();
+const { data } = entry;
 
 // Fetch all pages to compute related items. A simple heuristic
 // groups pages by the first segment of the slug (before the first dash).

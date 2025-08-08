@@ -1,0 +1,67 @@
+---
+// Base layout used by all content pages. It sets up canonical
+// metadata, JSON‑LD structured data and renders the page content
+// via a default slot. The `Astro.props` object contains all
+// frontmatter fields passed down from the page component.
+
+const { title, description, slug, faq1, faq2 } = Astro.props;
+// Build the canonical URL for this page using the provided slug and
+// the configured Pages subdomain. Ensure trailing slash for canonical.
+const canonical = new URL(`${slug}/`, 'https://bexback-pseo.pages.dev');
+
+// Construct JSON‑LD for Article and FAQ rich snippets. When FAQs
+// are provided in frontmatter they are included in the FAQList.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  'headline': title,
+  'description': description,
+  'url': canonical.toString(),
+  'mainEntityOfPage': {
+    '@type': 'WebPage',
+    '@id': canonical.toString(),
+  },
+  'author': {
+    '@type': 'Organization',
+    'name': 'BexBack',
+  },
+  'publisher': {
+    '@type': 'Organization',
+    'name': 'BexBack',
+  },
+  'faq': [
+    faq1 && {
+      '@type': 'Question',
+      'name': 'Is BexBack legit?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq1,
+      },
+    },
+    faq2 && {
+      '@type': 'Question',
+      'name': 'What fees apply?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq2,
+      },
+    },
+  ].filter(Boolean),
+};
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.toString()} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="application/ld+json">
+      {JSON.stringify(jsonLd)}
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,21 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/Base.astro';
+
+// Load all pages from the content collection. We'll list them
+// below in a simple index. The title, description and slug
+// supplied here will be used by the BaseLayout for SEO metadata.
+const pages = await getCollection('pages');
+const title = 'Guides';
+const description = 'Index of all crypto cashback and rebate guides.';
+const slug = 'guides';
+---
+<BaseLayout {title} {description} {slug}>
+  <h1>{title}</h1>
+  <p>Browse our curated guides on crypto cashback, rebates and exchange offers.</p>
+  <ul>
+    {pages.map((p) => (
+      <li><a href={`/${p.slug}/`}>{p.data.title}</a></li>
+    ))}
+  </ul>
+</BaseLayout>

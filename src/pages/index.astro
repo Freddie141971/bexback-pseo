@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../layouts/Base.astro';
+// Frontmatter for the homepage. Leaving `slug` empty makes the canonical root.
+const title = 'BexBack — Crypto Cashback Guides';
+const description = 'Browse crypto cashback & rebates guides for BexBack and exchanges.';
+const slug = '';
+---
+<BaseLayout {title} {description} {slug}>
+  <h1>BexBack — Crypto Cashback Guides</h1>
+  <p>Jump in:</p>
+  <ul>
+    <li><a href="/guides/">All guides</a></li>
+    <li><a href="/crypto-cashback/">Crypto cashback</a></li>
+    <li><a href="/bexback-app/">BexBack app</a></li>
+  </ul>
+</BaseLayout>

@@ -33,16 +33,21 @@ const related = allPages
   .slice(0, 3);
 ---
 <BaseLayout {...data} slug={slug}>
-  <Content />
+  <article>
+    <Content />
+  </article>
 
   {related.length > 0 && (
-    <>
+    <section class="related">
       <h2>Related Articles</h2>
       <ul>
         {related.map((r) => (
-          <li><a href={`/${r.slug}/`}>{r.data.title}</a></li>
+          <li>
+            <a href={`/${r.slug}/`}>{r.data.title}</a>
+            {r.data.description && <p>{r.data.description}</p>}
+          </li>
         ))}
       </ul>
-    </>
+    </section>
   )}
 </BaseLayout>

@@ -5,11 +5,16 @@
 // frontmatter fields passed down from the page component.
 
 const { title, description, slug, faq1, faq2 } = Astro.props;
-// Build the canonical URL for this page using the provided slug and
-// the configured Pages subdomain. If no slug is provided, default to
-// the site root. Ensure trailing slash for canonical.
+
+// Compute canonical URL. If a slug is provided ensure it has a trailing slash.
 const slugPath = slug ? `${slug}/` : '';
 const canonical = new URL(slugPath, 'https://bexback-pseo.pages.dev');
+
+// Year for copyright in the footer.
+const year = new Date().getFullYear();
+
+// Affiliate link used across the site. Update this constant to change globally.
+const affiliateLink = 'https://link.bexback.com/vfPttJ';
 
 // Construct JSON‑LD for Article and FAQ rich snippets. When FAQs
 // are provided in frontmatter they are included in the FAQList.
@@ -60,8 +65,129 @@ const jsonLd = {
     <link rel="canonical" href={canonical.toString()} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script type="application/ld+json" is:raw>{JSON.stringify(jsonLd)}</script>
+    <!-- Inline styles provide a simple design without external CSS. Feel free to adjust colours and spacing here. -->
+    <style>
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+          Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        color: #222;
+        background: #fff;
+      }
+      header {
+        background: #f5f5f5;
+        border-bottom: 1px solid #e0e0e0;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      header a.logo {
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: #222;
+        text-decoration: none;
+      }
+      nav a {
+        margin-left: 1rem;
+        color: #0070f3;
+        text-decoration: none;
+        font-weight: 500;
+      }
+      nav a:hover {
+        text-decoration: underline;
+      }
+      main {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+      footer {
+        background: #f5f5f5;
+        border-top: 1px solid #e0e0e0;
+        text-align: center;
+        padding: 1rem;
+        font-size: 0.9rem;
+        color: #555;
+      }
+      .cta {
+        text-align: center;
+        margin: 2.5rem 0;
+      }
+      .cta-button {
+        display: inline-block;
+        background: #0070f3;
+        color: #fff;
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      .cta-button:hover {
+        background: #005bb5;
+      }
+      blockquote {
+        background: #f9f9f9;
+        border-left: 4px solid #0070f3;
+        margin: 1.5rem 0;
+        padding: 0.75rem 1rem;
+        font-style: italic;
+        color: #333;
+      }
+      /* Grid styles for guides and related articles */
+      .guides-list,
+      .related ul {
+        list-style: none;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1rem;
+      }
+      .guides-list li,
+      .related li {
+        border: 1px solid #e0e0e0;
+        padding: 1rem;
+        background: #fafafa;
+        border-radius: 4px;
+      }
+      .guides-list a,
+      .related a {
+        text-decoration: none;
+        color: #0070f3;
+        font-weight: bold;
+      }
+      .guides-list a:hover,
+      .related a:hover {
+        text-decoration: underline;
+      }
+      .guides-list p {
+        margin: 0.5rem 0 0;
+        color: #555;
+        font-size: 0.9rem;
+      }
+    </style>
   </head>
   <body>
-    <slot />
+    <header>
+      <a href="/" class="logo">BexBack</a>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/guides/">Guides</a>
+      </nav>
+    </header>
+    <main>
+      <slot />
+      <!-- Primary CTA displayed after main content on all pages except the homepage -->
+      {slug && (
+        <div class="cta">
+          <a href={affiliateLink} class="cta-button" rel="sponsored noopener">Start on BexBack</a>
+        </div>
+      )}
+    </main>
+    <footer>
+      &copy; {year} BexBack. <a href="#">Privacy</a>
+    </footer>
   </body>
 </html>

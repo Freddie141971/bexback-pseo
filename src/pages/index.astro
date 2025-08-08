@@ -6,11 +6,34 @@ const description = 'Browse crypto cashback & rebates guides for BexBack and exc
 const slug = '';
 ---
 <BaseLayout {title} {description} {slug}>
-  <h1>BexBack — Crypto Cashback Guides</h1>
-  <p>Jump in:</p>
-  <ul>
-    <li><a href="/guides/">All guides</a></li>
-    <li><a href="/crypto-cashback/">Crypto cashback</a></li>
-    <li><a href="/bexback-app/">BexBack app</a></li>
-  </ul>
+  {/* Hero section introducing the site */}
+  <section style="text-align: center; padding: 4rem 1rem; background: #f9f9f9; border-radius: 8px;">
+    <h1 style="margin-top: 0; font-size: 2rem;">Explore Crypto Cashback &amp; Rebates</h1>
+    <p style="max-width: 600px; margin: 1rem auto;">
+      Discover the best crypto cashback offers and maximize your rewards with BexBack. Our comprehensive guides
+      help you compare exchanges and unlock rebates effortlessly.
+    </p>
+    {/* Primary CTA on homepage */}
+    <p>
+      <a href="https://link.bexback.com/vfPttJ" class="cta-button" rel="sponsored noopener">
+        Start on BexBack
+      </a>
+    </p>
+    <p><a href="/guides/">Browse all guides</a></p>
+  </section>
+
+  {/* Featured guides: highlight a couple of important pages */}
+  <section style="margin-top: 3rem;">
+    <h2>Featured Guides</h2>
+    <ul class="guides-list">
+      <li>
+        <a href="/crypto-cashback/">Crypto Cashback</a>
+        <p>Learn how crypto cashback works and discover top offers.</p>
+      </li>
+      <li>
+        <a href="/bexback-app/">BexBack App</a>
+        <p>Get started with the BexBack app and track your rewards.</p>
+      </li>
+    </ul>
+  </section>
 </BaseLayout>

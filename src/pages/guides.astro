@@ -13,9 +13,12 @@ const slug = 'guides';
 <BaseLayout {title} {description} {slug}>
   <h1>{title}</h1>
   <p>Browse our curated guides on crypto cashback, rebates and exchange offers.</p>
-  <ul>
+  <ul class="guides-list">
     {pages.map((p) => (
-      <li><a href={`/${p.slug}/`}>{p.data.title}</a></li>
+      <li>
+        <a href={`/${p.slug}/`}>{p.data.title}</a>
+        {p.data.description && <p>{p.data.description}</p>}
+      </li>
     ))}
   </ul>
 </BaseLayout>

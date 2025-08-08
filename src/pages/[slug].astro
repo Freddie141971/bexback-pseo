@@ -1,0 +1,37 @@
+---
+import { getCollection, getEntryBySlug } from 'astro:content';
+import BaseLayout from '../layouts/Base.astro';
+
+// Obtain the slug parameter from the route. This file generates a page
+// for each entry in the `pages` collection defined in src/content/config.ts.
+const { slug } = Astro.params;
+const entry = await getEntryBySlug('pages', slug);
+
+if (!entry) {
+  throw new Error(`Content entry not found for slug: ${slug}`);
+}
+
+const { Content, data } = entry;
+
+// Fetch all pages to compute related items. A simple heuristic
+// groups pages by the first segment of the slug (before the first dash).
+const allPages = await getCollection('pages');
+const clusterKey = slug.split('-')[0];
+const related = allPages
+  .filter((p) => p.slug !== slug && p.slug.startsWith(clusterKey))
+  .slice(0, 3);
+---
+<BaseLayout {...data}>
+  <Content />
+
+  {related.length > 0 && (
+    <>
+      <h2>Related Articles</h2>
+      <ul>
+        {related.map((r) => (
+          <li><a href={`/${r.slug}/`}>{r.data.title}</a></li>
+        ))}
+      </ul>
+    </>
+  )}
+</BaseLayout>
